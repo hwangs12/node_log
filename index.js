@@ -21,6 +21,7 @@ http.createServer(function (req, res) {
         stream.pipe(res);
     } else if (url === "/video") {
         const range = req.headers.range;
+        console.log(range);
         if (!range) {
             res.statusCode(400).send("Requires Range header");
         }
@@ -30,9 +31,9 @@ http.createServer(function (req, res) {
         // this gives you the byte size of the video in string
         const videoSize = fs.statSync(videoPath).size;
 
-        console.log("???videosize???");
+        /* console.log("???videosize???");
         console.log(videoSize);
-        console.log("???videosize???");
+        console.log("???videosize???"); */
 
         // Parse Range
         // Example: "bytes=32324-"
@@ -44,9 +45,8 @@ http.createServer(function (req, res) {
         console.log("what the hell is range???");
         const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
 
-        console.log(sum);
-        sum += (end - start) / Number(videoSize);
-        console.log(req.headers.range, "----", start);
+        /* console.log(sum);
+        sum += (end - start) / Number(videoSize); */
         const contentLength = end - start + 1;
         const headers = {
             "Content-Range": `bytes ${start}-${end}/${videoSize}`,
